@@ -1,6 +1,15 @@
 <title>Jekkuluola</title>
-<h1>Jekkuluola</h1>
-<p>jekkui ja kaikkee</p>
+
+<h1><a href="/">Jekkuluola</a></h1>
+<h2>jekkui ja kaikkee</h2>
+
+{% if session.user_id %}
+<p>Olet kirjautunut nimellä {{ user.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+<a href="/login">kirjaudu</a> <a href="/signup">rekisteröidy</a>
+{% endif %}
+
 <hr>
 {% for joke in jokes %}
 <b>{{ joke.content }}</b> <br>
