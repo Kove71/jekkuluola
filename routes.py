@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect
-from services.jokes import get_jokes, add_joke
+from services.jokes import get_jokes, add_joke, get_user_jokes
 from services.users import create_user, get_session_user, user_login, user_logout
 
 @app.route("/")
@@ -45,3 +45,8 @@ def login():
 def logout():
     user_logout()
     return redirect("/")
+
+@app.route("/profile/<username>")
+def profile(username):
+    user_jokes = get_user_jokes(username)
+    return render_template("userpage.html", jokes=user_jokes)
