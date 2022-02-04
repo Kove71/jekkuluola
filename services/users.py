@@ -5,7 +5,7 @@ from db import db
 
 def create_user(username, password):
     hashed_pw = generate_password_hash(password)
-    sql = ("INSERT INTO users (username, password, admin) VALUES (:username, :password, FALSE)")
+    sql = "INSERT INTO users (username, password, admin, banned) VALUES (:username, :password, FALSE, FALSE)"
     db.session.execute(sql, {
         "username": username,
         "password": hashed_pw

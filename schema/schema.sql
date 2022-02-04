@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
     password TEXT,
-    admin BOOLEAN
+    admin BOOLEAN,
+    banned BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS jokes (

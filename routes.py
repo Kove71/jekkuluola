@@ -1,7 +1,8 @@
 from app import app
 from flask import render_template, request, redirect
-from services.jokes import get_jokes, add_joke, get_user_jokes
+from services.jokes import get_jokes, add_joke, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
+from services.comments import get_comments, add_comment
 
 @app.route("/")
 def index():
@@ -50,3 +51,14 @@ def logout():
 def profile(username):
     user_jokes = get_user_jokes(username)
     return render_template("userpage.html", jokes=user_jokes)
+
+@app.route("/joke/<int:id>", methods=["GET", "POST"])
+def joke(id):
+    if request.method == "GET":
+        joke = get_jokepage_joke(id)
+        comments = get_comments(id)
+        return render_template("joke.html", joke=joke, comments=comments)
+    if request.method == "POST":
+        comment = request.form["comment"]
+        add_comment(id, comment)
+        return redirect(f"/joke/{id}")
