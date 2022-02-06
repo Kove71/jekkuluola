@@ -13,7 +13,18 @@ def vote(joke_id, vote):
 def get_votes(joke_id):
     sql = "SELECT SUM(vote) FROM votes WHERE joke_id=:joke_id"
     result = db.session.execute(sql, {"joke_id":joke_id})
-    return result.fetchone()[0]
+    votes = result.fetchone()[0]
+    if votes == None:
+        return 0
+    return votes
+
+def get_user_votes(username):
+    sql = "SELECT SUM(V.vote) FROM votes V, users U, jokes J WHERE V.joke_id=J.id AND J.user_id=U.id AND U.username=:username"
+    result = db.session.execute(sql, {"username":username})
+    votes = result.fetchone()[0]
+    if votes == None:
+        return 0
+    return votes
 
 def insert_vote(joke_id, vote):
     user_id=session["user_id"]

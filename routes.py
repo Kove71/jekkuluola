@@ -3,7 +3,7 @@ from flask import render_template, request, redirect
 from services.jokes import get_jokes, add_joke, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
 from services.comments import get_comments, add_comment
-from services.votes import get_votes, vote
+from services.votes import get_user_votes, get_votes, vote
 
 @app.route("/")
 def index():
@@ -53,7 +53,8 @@ def logout():
 @app.route("/profile/<username>")
 def profile(username):
     user_jokes = get_user_jokes(username)
-    return render_template("userpage.html", jokes=user_jokes)
+    user_votes = get_user_votes(username)
+    return render_template("userpage.html", jokes=user_jokes, votes=user_votes, username=username)
 
 @app.route("/joke/<int:id>", methods=["GET", "POST"])
 def joke(id):
