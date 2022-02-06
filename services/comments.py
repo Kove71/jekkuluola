@@ -2,7 +2,7 @@ from flask import session
 from db import db
 
 def get_comments(joke_id):
-    sql = "SELECT U.username, J.id, C.comment, C.created_at FROM users U, comments C, jokes J WHERE C.joke_id=J.id AND C.user_id=U.id AND J.id=:joke_id"
+    sql = "SELECT U.username, J.id, C.comment, C.created_at FROM users U, comments C, jokes J WHERE C.joke_id=J.id AND C.user_id=U.id AND J.id=:joke_id ORDER BY C.created_at DESC"
     result = db.session.execute(sql, {"joke_id":joke_id})
     return result.fetchall()
 

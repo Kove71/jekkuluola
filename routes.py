@@ -26,9 +26,13 @@ def signup():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        create_user(username, password)
-        return redirect("/login")
+        if create_user(username, password):
+            return redirect("/login")
+        else:
+            errormessage = "Valitsemasi käyttäjätunnus on jo käytössä"
+            return render_template("signup.html", errormessage=errormessage)
 
+@app.route("/signup")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

@@ -1,17 +1,21 @@
 from flask import session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
-
+from sqlalchemy import exc
 
 def create_user(username, password):
     hashed_pw = generate_password_hash(password)
     sql = "INSERT INTO users (username, password, admin, banned) VALUES (:username, :password, FALSE, FALSE)"
-    db.session.execute(sql, {
-        "username": username,
-        "password": hashed_pw
-    })
-    db.session.commit()
-
+    try:
+        db.session.execute(sql, {
+            "username": username,
+            "password": hashed_pw
+        })
+        db.session.commit()
+        return True
+    except exc.IntegrityError:
+        print("error error this is terror")
+        return False
 
 def user_login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"

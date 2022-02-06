@@ -1,5 +1,8 @@
 <h1><a href="/">Jekkuluola</a></h1>
 <h2>Rekisteröinti</h2>
+{% if errormessage %}
+{{ errormessage }} <br>
+{% endif %}
 <form action="/signup" method="POST">
     <p>Tunnus:<br>
     <input type="text" name="username"></p>
