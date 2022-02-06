@@ -3,6 +3,7 @@ from flask import render_template, request, redirect
 from services.jokes import get_jokes, add_joke, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
 from services.comments import get_comments, add_comment
+from services.votes import get_votes, vote
 
 @app.route("/")
 def index():
@@ -32,8 +33,6 @@ def signup():
             errormessage = "Valitsemasi käyttäjätunnus on jo käytössä"
             return render_template("signup.html", errormessage=errormessage)
 
-@app.route("/signup")
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -61,8 +60,19 @@ def joke(id):
     if request.method == "GET":
         joke = get_jokepage_joke(id)
         comments = get_comments(id)
-        return render_template("joke.html", joke=joke, comments=comments)
+        votes = get_votes(id)
+        return render_template("joke.html", joke=joke, comments=comments, votes=votes)
     if request.method == "POST":
         comment = request.form["comment"]
         add_comment(id, comment)
         return redirect(f"/joke/{id}")
+
+@app.route("/upvote/<int:id>")
+def upvote(id):
+    vote(id, 1)
+    return redirect(f"/joke/{id}")
+
+@app.route("/downvote/<int:id>")
+def downvote(id):
+    vote(id, -1)
+    return redirect(f"/joke/{id}")

@@ -4,7 +4,14 @@
 <a href="/profile/{{ joke.username }}">{{ joke.username }}</a> <br>
 <b>{{ joke.content }}</b> <br>
 Luotu: {{ joke.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
+Pisteet: <b>{{ votes }}</b> <br>
 
+{% if session.user_id %}
+<a href="/upvote/{{ joke.id }}">ylä-ääni</a> <a href="/downvote/{{ joke.id }}">downvote</a>
+{% else %}
+<a href="/login">kirjaudu äänestääksesi</a>
+{% endif %}
+<br>
 
 <hr>
 {% for comment in comments %}

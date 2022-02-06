@@ -24,6 +24,6 @@ def get_user_jokes(username):
     return result.fetchall()
 
 def get_jokepage_joke(joke_id):
-    sql = "SELECT U.username, J.content, J.created_at FROM users U, jokes J WHERE J.user_id=U.id AND J.id=:joke_id"
+    sql = "SELECT U.username, J.id, J.content, J.created_at FROM users U, jokes J WHERE J.user_id=U.id AND J.id=:joke_id"
     result = db.session.execute(sql, {"joke_id":joke_id})
     return result.fetchone()

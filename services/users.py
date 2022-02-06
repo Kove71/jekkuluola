@@ -14,7 +14,6 @@ def create_user(username, password):
         db.session.commit()
         return True
     except exc.IntegrityError:
-        print("error error this is terror")
         return False
 
 def user_login(username, password):
