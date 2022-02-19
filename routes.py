@@ -1,3 +1,4 @@
+from distutils.log import error
 from app import app
 from flask import render_template, request, redirect
 from services.jokes import get_jokes, add_joke, get_user_jokes, get_jokepage_joke
@@ -16,22 +17,31 @@ def new_joke():
     if request.method == "GET":
         return render_template("newjoke.html")
     if request.method == "POST":
-        joke_content = request.form["joke"]
-        add_joke(joke_content)
-        return redirect("/")
+        joke_content = request.form["joke"].strip()
+        if joke_content:
+            add_joke(joke_content)
+            return redirect("/")
+        return render_template("newjoke.html")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "GET":
         return render_template("signup.html")
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        if create_user(username, password):
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
+        case = create_user(username, password, password)
+        if case == 0:
             return redirect("/login")
-        else:
+        elif case == 1:
+            errormessage = "Anna salasana ja käyttäjätunnus"
+        elif case == 2:
+            errormessage = "Salasanat eivät täsmää"
+        elif case == 3:
             errormessage = "Valitsemasi käyttäjätunnus on jo käytössä"
-            return render_template("signup.html", errormessage=errormessage)
+        else:
+            errormessage = "Jokin meni mönkään"
+        return render_template("signup.html", errormessage=errormessage)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -64,8 +74,9 @@ def joke(id):
         votes = get_votes(id)
         return render_template("joke.html", joke=joke, comments=comments, votes=votes)
     if request.method == "POST":
-        comment = request.form["comment"]
-        add_comment(id, comment)
+        comment = request.form["comment"].strip()
+        if comment:
+            add_comment(id, comment)
         return redirect(f"/joke/{id}")
 
 @app.route("/upvote/<int:id>")

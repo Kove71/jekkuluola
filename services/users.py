@@ -3,7 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db import db
 from sqlalchemy import exc
 
-def create_user(username, password):
+def create_user(username, password, second_password):
+    if not username or not password or not second_password:
+        return 1
+    if password != second_password:
+        return 2
     hashed_pw = generate_password_hash(password)
     sql = "INSERT INTO users (username, password, admin, banned) VALUES (:username, :password, FALSE, FALSE)"
     try:
@@ -12,9 +16,9 @@ def create_user(username, password):
             "password": hashed_pw
         })
         db.session.commit()
-        return True
+        return 0
     except exc.IntegrityError:
-        return False
+        return 3
 
 def user_login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
