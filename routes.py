@@ -1,6 +1,7 @@
 from distutils.log import error
 from app import app
 from flask import render_template, request, redirect
+from services.admin import give_admin_rights, ban_user, remove_joke
 from services.jokes import add_joke, get_jokes_by_time, get_jokes_by_vote, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
 from services.comments import get_comments, add_comment
@@ -71,6 +72,22 @@ def login():
             errormessage = "Jokin meni mönkään"
         return render_template("login.html", errormessage=errormessage)
 
+@app.route("/banuser/<username>")
+def banuser(username):
+    ban_user(username)
+    return redirect("/")
+
+@app.route("/giveadmin/<username>")
+def giveadmin(username):
+    give_admin_rights(username)
+    return redirect("/")
+
+
+@app.route("/removejoke/<int:id>")
+def removejoke(id):
+    remove_joke(id)
+    return redirect("/")
+
 @app.route("/logout")
 def logout():
     user_logout()
@@ -80,8 +97,7 @@ def logout():
 def profile(username):
     user_jokes = get_user_jokes(username)
     user_votes = get_user_votes(username)
-    admin = get_session_user()[1]
-    return render_template("userpage.html", jokes=user_jokes, votes=user_votes, username=username, admin=admin )
+    return render_template("userpage.html", jokes=user_jokes, votes=user_votes, username=username)
 
 @app.route("/joke/<int:id>", methods=["GET", "POST"])
 def joke(id):
@@ -89,8 +105,7 @@ def joke(id):
         joke = get_jokepage_joke(id)
         comments = get_comments(id)
         votes = get_votes(id)
-        admin = get_session_user()[1]
-        return render_template("joke.html", joke=joke, comments=comments, votes=votes, admin=admin)
+        return render_template("joke.html", joke=joke, comments=comments, votes=votes)
     if request.method == "POST":
         comment = request.form["comment"].strip()
         if comment:

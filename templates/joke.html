@@ -5,7 +5,7 @@
 <b>{{ joke.content }}</b> <br>
 Luotu: {{ joke.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
 Pisteet: <b>{{ votes }}</b> <br>
-{% if admin %}
+{% if session.admin %}
 <a href="/removejoke/{{ joke.id }}">Poista vitsi</a>
 {% endif %}
 <br>

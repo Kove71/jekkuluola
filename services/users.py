@@ -31,11 +31,17 @@ def user_login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["admin"] = get_user_admin(user.id)
             return 0
         else:
             return 3
 
+def get_user_admin(id):
+    sql = "SELECT admin FROM users WHERE id=:id"
+    return db.session.execute(sql, {"id":id}).fetchone()[0]
+
 def user_logout():
+    del session["admin"]
     del session["user_id"]
 
 def get_session_user():
@@ -46,13 +52,3 @@ def get_session_user():
         return result.fetchone()
     except Exception:
         return False
-
-def give_admin_rights(username):
-    sql = "UPDATE users SET admin=TRUE WHERE username=:username"
-    db.session.execute(sql, {"username":username})
-    db.session.commit()
-
-def ban_user(username):
-    sql = "UPDATE users SET banned=TRUE WHERE username=:username"
-    db.session.execute(sql, {"username":username})
-    db.session.commit()

@@ -3,8 +3,9 @@
 
 Pisteet: <b>{{ votes }}</b><br>
 
-{% if admin %}
-<a href="banuser/{{ username }}">Bännää käyttäjä</a>
+{% if session.admin %}
+<a href="../banuser/{{ username }}">Bännää käyttäjä</a>
+<a href="../giveadmin/{{ username }}">Anna käyttäjälle ylläpito-oikeudet</a>
 {% endif %}
 
 <hr>
