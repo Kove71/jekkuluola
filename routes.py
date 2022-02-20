@@ -1,14 +1,20 @@
 from distutils.log import error
 from app import app
 from flask import render_template, request, redirect
-from services.jokes import get_jokes, add_joke, get_user_jokes, get_jokepage_joke
+from services.jokes import add_joke, get_jokes_by_time, get_jokes_by_vote, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
 from services.comments import get_comments, add_comment
 from services.votes import get_user_votes, get_votes, vote
 
 @app.route("/")
 def index():
-    jokes = get_jokes()
+    jokes = get_jokes_by_time()
+    user_data = get_session_user()
+    return render_template("index.html", jokes=jokes, user=user_data)
+
+@app.route("/best")
+def best():
+    jokes = get_jokes_by_vote()
     user_data = get_session_user()
     return render_template("index.html", jokes=jokes, user=user_data)
 
@@ -19,7 +25,8 @@ def new_joke():
     if request.method == "POST":
         joke_content = request.form["joke"].strip()
         if joke_content:
-            add_joke(joke_content)
+            j_id = add_joke(joke_content)
+            vote(j_id, 0)
             return redirect("/")
         return render_template("newjoke.html")
 
@@ -30,7 +37,8 @@ def signup():
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
-        case = create_user(username, password, password)
+        second_password = request.form["second_password"].strip()
+        case = create_user(username, password, second_password)
         if case == 0:
             return redirect("/login")
         elif case == 1:
