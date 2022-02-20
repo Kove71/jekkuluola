@@ -58,10 +58,18 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if user_login(username, password):
+        case = user_login(username, password)
+        if case == 0:    
             return redirect("/")
+        elif case == 1:
+            errormessage = "Käyttäjää ei löytynyt"
+        elif case == 2:
+            errormessage = "Olet bänned"
+        elif case == 3:
+            errormessage = "Salasana oli väärin"
         else:
-            return redirect("/login")
+            errormessage = "Jokin meni mönkään"
+        return render_template("login.html", errormessage=errormessage)
 
 @app.route("/logout")
 def logout():
@@ -72,7 +80,8 @@ def logout():
 def profile(username):
     user_jokes = get_user_jokes(username)
     user_votes = get_user_votes(username)
-    return render_template("userpage.html", jokes=user_jokes, votes=user_votes, username=username)
+    admin = get_session_user()[1]
+    return render_template("userpage.html", jokes=user_jokes, votes=user_votes, username=username, admin=admin )
 
 @app.route("/joke/<int:id>", methods=["GET", "POST"])
 def joke(id):
@@ -80,7 +89,8 @@ def joke(id):
         joke = get_jokepage_joke(id)
         comments = get_comments(id)
         votes = get_votes(id)
-        return render_template("joke.html", joke=joke, comments=comments, votes=votes)
+        admin = get_session_user()[1]
+        return render_template("joke.html", joke=joke, comments=comments, votes=votes, admin=admin)
     if request.method == "POST":
         comment = request.form["comment"].strip()
         if comment:

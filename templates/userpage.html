@@ -1,7 +1,12 @@
 <h1><a href="/">Jekkuluola</a></h1>
 <h2>{{ username }}</h2>
 
-Pisteet: <b>{{ votes }}</b>
+Pisteet: <b>{{ votes }}</b><br>
+
+{% if admin %}
+<a href="banuser/{{ username }}">Bännää käyttäjä</a>
+{% endif %}
+
 <hr>
 {% for joke in jokes %}
 <a href="../joke/{{ joke.id }}"><b>{{ joke.content }}</b></a> <br>
