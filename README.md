@@ -14,7 +14,7 @@ Sivu, jossa voi katsoa, kommentoida ja äänestää käyttäjien tekemiä vitsej
 - Käyttäjillä voi olla admin-oikeudet, ja voivat antaa ylläpito-oikeudet tai bännätä muita käyttäjiä
 - Bännätty käyttäjä ei voi kirjautua
 
-En saanut paljoa aikaan tällä viikolla muuton takia. Implementoin vertaisarvioinnin antamat vinkit ja lisäsin melkein kaiken perustoiminnalisuuden. Loppupalautusta vartaen aion korjata ulkoasun, parantaa turvallisuutta ja lisätä tägit ja yksinkertaisen etsimistoiminnallisuuden + viimeistellä admin-hommat. 
+En saanut paljoa aikaan tällä viikolla muuton takia. Implementoin vertaisarvioinnin antamat vinkit ja lisäsin melkein kaiken perustoiminnalisuuden. Loppupalautusta varten aion korjata ulkoasun, parantaa turvallisuutta, lisätä tägit ja yksinkertaisen etsimistoiminnallisuuden sekä viimeistellä admin-hommat. 
 
 ## Heroku
 
