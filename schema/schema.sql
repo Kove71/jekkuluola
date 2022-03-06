@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS jokes (
     id SERIAL PRIMARY KEY,
     content TEXT,
     user_id INT REFERENCES users,
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+    visible BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS comments (

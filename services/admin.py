@@ -12,4 +12,6 @@ def ban_user(username):
     db.session.commit()
 
 def remove_joke(joke_id):
-    pass
+    sql = "UPDATE jokes SET visible=FALSE WHERE id=:joke_id"
+    db.session.execute(sql, {"joke_id":joke_id})
+    db.session.commit()
