@@ -1,6 +1,6 @@
 from distutils.log import error
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session, abort
 from services.admin import give_admin_rights, ban_user, remove_joke
 from services.jokes import add_joke, get_jokes_by_time, get_jokes_by_vote, get_user_jokes, get_jokepage_joke
 from services.users import create_user, get_session_user, user_login, user_logout
@@ -25,6 +25,8 @@ def new_joke():
         return render_template("newjoke.html")
     if request.method == "POST":
         joke_content = request.form["joke"].strip()
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         if joke_content:
             j_id = add_joke(joke_content)
             vote(j_id, 0)
@@ -108,6 +110,8 @@ def joke(id):
         return render_template("joke.html", joke=joke, comments=comments, votes=votes)
     if request.method == "POST":
         comment = request.form["comment"].strip()
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)        
         if comment:
             add_comment(id, comment)
         return redirect(f"/joke/{id}")

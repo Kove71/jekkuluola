@@ -28,6 +28,7 @@ Luotu: {{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
 <form action="{{ joke.id }}" method="POST">
     <textarea name="comment" rows="3" columns="10"></textarea>
     <input type="submit" value="Kommentoi">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% else %}
 <a href="/login">kirjaudu sisään</a>

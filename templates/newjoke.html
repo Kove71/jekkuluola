@@ -5,6 +5,7 @@
     <p>Kirjotappa kasku:<br>
     <input type="text" name="joke"></p>
     <input type="submit" value="Julkase jekku">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% else %}
 <a href="/login">kirjaudu sisään</a>
