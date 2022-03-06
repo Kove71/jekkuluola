@@ -13,8 +13,9 @@ Sivu, jossa voi katsoa, kommentoida ja äänestää käyttäjien tekemiä vitsej
 - Vitsejä voi äänestää, ja niiden saamat pisteet näytetään yhteenvetona
 - Käyttäjillä voi olla admin-oikeudet, ja voivat antaa ylläpito-oikeudet tai bännätä muita käyttäjiä
 - Bännätty käyttäjä ei voi kirjautua
+- Ylläpitäjä voi poistaa vitsejä
 
-En saanut paljoa aikaan tällä viikolla muuton takia. Implementoin vertaisarvioinnin antamat vinkit ja lisäsin melkein kaiken perustoiminnalisuuden. Loppupalautusta varten aion korjata ulkoasun, parantaa turvallisuutta, lisätä tägit ja yksinkertaisen etsimistoiminnallisuuden sekä viimeistellä admin-hommat. 
+Ulkoasu jäi tekemättä, muutossa vei yllättävän paljon aikaa.
 
 ## Heroku
 
