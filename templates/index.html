@@ -16,7 +16,7 @@
     <a href="/">Perusnäkymä</a> 
     <a href="/best">Kaikkien aikojen kaskut</a>
 </p>
-
+<a href="/newjoke">Julkaseppa tästä jekku</a>
 <hr>
 {% for joke in jokes %}
 <a href="profile/{{ joke.username }}">{{ joke.username }}</a> <br>
@@ -25,4 +25,3 @@ Luotu: {{ joke.created_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
 Pisteet: <b>{{ joke.votesum }}</b><br>
 <hr>
 {% endfor %}
-<a href="/newjoke">Julkaseppa tästä jekku</a>
